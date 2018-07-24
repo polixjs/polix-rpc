@@ -1,0 +1,23 @@
+{
+  "name": "polix-rpc",
+  "version": "0.0.1",
+  "description": "rpc plugin for polix",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polixjs/polix-rpc.git"
+  },
+  "keywords": [
+    "polix",
+    "rpc"
+  ],
+  "author": "ricky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/polixjs/polix-rpc/issues"
+  },
+  "homepage": "https://github.com/polixjs/polix-rpc#readme"
+}
