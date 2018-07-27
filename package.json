@@ -4,7 +4,7 @@
   "description": "rpc plugin for polix",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/polixjs/polix-rpc/issues"
   },
-  "homepage": "https://github.com/polixjs/polix-rpc#readme"
+  "homepage": "https://github.com/polixjs/polix-rpc#readme",
+  "devDependencies": {
+    "ava": "^0.25.0"
+  }
 }
