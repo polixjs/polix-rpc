@@ -1,4 +1,4 @@
-'use struct';
+'use strict';
 
 const fs = require('fs');
 const tokenizer = Symbol.for('kirito#tokenizer');

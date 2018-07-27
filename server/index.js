@@ -1,1 +1,1 @@
-'use struct';
+'use strict';
