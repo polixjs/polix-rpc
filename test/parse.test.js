@@ -2,12 +2,12 @@
 
 const test = require('ava');
 const path = require('path');
-const Kirito = require('../protocol/kirito');
+const Kirito = require('../parse/kirito');
 const kiritoProto = './protocol/test.kirito';
 
 const k = new Kirito();
 
 test('Kirito#parse', t => {
-  k.parse(path.join(__dirname, kiritoProto));
+  k.load(path.join(__dirname, kiritoProto));
   t.pass();
 });
