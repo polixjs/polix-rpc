@@ -7,4 +7,10 @@ install:
 test:
 	NODE_ENV=test $(BIN_AVA) --verbose $(TESTS);
 
-.PHONY: install test
+server:
+	DEBUG=polix-rpc:mqtt node ./server/index.js
+
+client:
+	DEBUG=polix-rpc:mqtt node ./client/index.js
+
+.PHONY: install test server client

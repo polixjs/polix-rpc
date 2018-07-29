@@ -5,7 +5,7 @@
       "es6": true
     },
     "rules": {
-      "no-console": ["error"],
+      "no-console": "off",
       "indent": [ "error", 2 ],
       "quotes": [ "error", "single" ],
       "space-before-blocks": ["error"],
