@@ -37,7 +37,7 @@ class Kirito {
     const NUMBER = /\d/;
 
     const source = input.split('\n');
-    let tokens = [];
+    const tokens = [];
     source.some(line => {
       let current = 0;
       let isContinue = false;
