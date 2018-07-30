@@ -10,6 +10,7 @@ class MQTT extends EventEmitter {
   constructor () {
     super();
     this.inited = false;
+    this.events = {};
   }
 
   listen (port, cb) {
@@ -20,8 +21,9 @@ class MQTT extends EventEmitter {
     const self = this;
     this.inited = true;
     this.server = new net.Server();
-    this.server.listen(port);
-    debug('MQTT Server is started!');
+    this.port = port || 10003;
+    this.server.listen(this.port);
+    debug('MQTT Server is started for port: %d', this.port);
 
     this.server.on('error', (err) => {
       debug('rpc server is error: %j', err.stack);
@@ -54,13 +56,28 @@ class MQTT extends EventEmitter {
       });
 
       socket.on('publish', (pkg) => {
-        socket.puback({ messageId: pkg.messageId });
+        // socket.puback({ messageId: pkg.messageId });
         let content = pkg.payload.toString();
         debug(content);
+        content = JSON.parse(content);
+        socket.publish({
+          topic: 'rpc',
+          qos: 1,
+          messageId: pkg.messageId,
+          payload: JSON.stringify({msgId: content.msgId, body: {age: content.body.age + 1, name: 'hello ' + content.body.name}})
+        });
       });
     });
+  }
 
-
+  addEvent (events) {
+    const eventKeys = Object.getOwnPropertyNames(events);
+    eventKeys.some(event => {
+      this.events[event] = {
+        cb: events[event].cb,
+        param: events[event].param
+      };
+    });
   }
 
 }

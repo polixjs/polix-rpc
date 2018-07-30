@@ -1,10 +1,49 @@
 'use strict';
 
-const MQTT = require('./protocol/mqtt');
-const client = MQTT.create();
+const protocol = require('./protocol.js');
+const connect = Symbol.for('connect');
+const uuid = require('uuid/v1');
 
-client.connect(function (err) {
-  console.error(err);
-});
+class Client {
 
-client.send({age: 1, name: 'ricky'});
+  constructor(opts, service) {
+    this.client = void(0);
+    this[connect](opts, service);
+    this.callQueues = {};
+  }
+
+  [connect] (opts, service) {
+    this.client = protocol.create(opts);
+    this.client.connect((err) => {
+      if (err) {
+        throw new Error(err);
+      }
+    });
+    const self = this;
+
+    this.client.on('data', function (result) {
+      const fn = self.callQueues[result.msgId];
+      fn.call(fn, result.body);
+    });
+    const serviceKeys = Object.getOwnPropertyNames(service);
+    serviceKeys.some(method => {
+      self[method] = function () {
+        const reqMsg = arguments[0];
+        const fn = arguments[1];
+        const paramKey = Object.getOwnPropertyNames(service[method].param);
+        paramKey.some((param) => {
+          if (reqMsg[param] === null) {
+            throw new Error(`Parameters '${param}' are missing`);
+          }
+          // todo 类型判断及转换
+        });
+        const msgId = uuid();
+        self.callQueues[msgId] = fn;
+        self.client.send({method, msgId, body: reqMsg});
+      };
+    });
+  }
+
+}
+
+module.exports = Client;

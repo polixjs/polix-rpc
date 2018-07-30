@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "debug": "^3.1.0",
-    "mqtt-connection": "^4.0.0"
+    "mqtt-connection": "^4.0.0",
+    "uuid": "^3.3.2"
   }
 }

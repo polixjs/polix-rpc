@@ -37,7 +37,9 @@ class MQTT extends EventEmitter {
 
     // 监听publish事件
     this.socket.on('publish', (pkg) => {
-      debug('publish: %j', pkg);
+      const content = pkg.payload.toString();
+      debug(content);
+      this.emit('data', JSON.parse(content));
     });
 
     // 监听puback事件

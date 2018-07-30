@@ -3,7 +3,7 @@
 const test = require('ava');
 const path = require('path');
 const Kirito = require('../parse/kirito');
-const kiritoProto = './protocol/test.kirito';
+const kiritoProto = '../example/protocol/test.kirito';
 
 const k = new Kirito();
 
