@@ -2,18 +2,17 @@
 
 const {test} = require('ava');
 const path = require('path');
-const prpc = require('..');
+const pRPC = require('..');
 const kiritoProto = '../example/protocol/test.kirito';
-const server = prpc.server;
-let service = void (0);
+const server = new pRPC.Server();
 
-const ping = function (call, callback) {
-  callback(null, {age: call.data.age, name: call.data.name});
-};
+function ping(call, cb) {
+  cb(null, {age: cb.param.age, name: cb.param.name});
+}
 
 test('rpc#server', (t) => {
-  service = prpc.load(path.join(__dirname, kiritoProto));
-  server.addKiritoService(service.testService, {ping});
+  const proto = pRPC.load(path.join(__dirname, kiritoProto));
+  server.addKiritoService(proto.testService, {ping});
   server.listen();
   t.pass();
 });
