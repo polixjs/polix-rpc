@@ -23,7 +23,10 @@ class Client {
 
     this.client.on('data', function (result) {
       const fn = self.callQueues[result.msgId];
-      fn.call(fn, result.body);
+      if (result.error) {
+        return fn.call(fn, result.error, null);
+      }
+      fn.call(fn, null, result.body);
     });
     const serviceKeys = Object.getOwnPropertyNames(service);
     serviceKeys.some(method => {

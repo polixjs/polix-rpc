@@ -57,24 +57,56 @@ class MQTT extends EventEmitter {
 
       socket.on('publish', (pkg) => {
         // socket.puback({ messageId: pkg.messageId });
-        let content = pkg.payload.toString();
-        debug(content);
-        content = JSON.parse(content);
-        socket.publish({
-          topic: 'rpc',
-          qos: 1,
-          messageId: pkg.messageId,
-          payload: JSON.stringify({msgId: content.msgId, body: {age: content.body.age + 1, name: 'hello ' + content.body.name}})
-        });
+        self.consumers(pkg, socket);
       });
     });
   }
+
+  consumers (pkg, socket) {
+    const self = this;
+    let content = pkg.payload.toString();
+    debug(content);
+    content = JSON.parse(content);
+    const respMsg = {
+      msgId: content.msgId
+    };
+    if (this.events[content.method] === null) {
+      respMsg.error = {
+        message: `not found ${content.method} method`
+      };
+      self.response(socket, {messageId: pkg.messageId, body: respMsg});
+    } else {
+      // if (content.body.age < 23) {
+      //   respMsg.error = {
+      //     message: `Ricky age Is greater than ${content.body.age}!!!!!`
+      //   };
+      //   return self.response(socket, {messageId: pkg.messageId, body: respMsg});
+      // }
+      const fn = this.events[content.method].method;
+      const callback = function (err, result) {
+        respMsg.body = result;
+        self.response(socket, {messageId: pkg.messageId, body: respMsg});
+      };
+      fn.call(fn, content.body, callback);
+    }
+  }
+
+  response (socket, result) {
+    socket.publish({
+      topic: 'rpc',
+      qos: 1,
+      messageId: result.messageId,
+      payload: JSON.stringify(result.body)
+    });
+  }
+
+
 
   addEvent (events) {
     const eventKeys = Object.getOwnPropertyNames(events);
     eventKeys.some(event => {
       this.events[event] = {
-        cb: events[event].cb,
+        method: events[event].method,
         param: events[event].param
       };
     });

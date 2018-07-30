@@ -7,7 +7,7 @@ const kiritoProto = '../example/protocol/test.kirito';
 const server = new pRPC.Server();
 
 function ping(call, cb) {
-  cb(null, {age: cb.param.age, name: cb.param.name});
+  cb(null, {age: call.param.age, name: call.param.name});
 }
 
 test('rpc#server', (t) => {

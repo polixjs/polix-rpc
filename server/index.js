@@ -16,7 +16,7 @@ class Server {
       let idx = -1;
       if ((idx = methodKeys.indexOf(method)) !== -1) {
         events[method] = {
-          cb: methods[method],
+          method: methods[method],
           param: service[method].param
         };
         delete methodKeys.splice(idx, 1);
