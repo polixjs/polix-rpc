@@ -7,7 +7,7 @@ const kiritoProto = '../example/protocol/test.kirito';
 
 const k = new Kirito();
 
-test('Kirito#parse', t => {
+test('kirito # parse', t => {
   k.load(path.join(__dirname, kiritoProto));
   t.pass();
 });
