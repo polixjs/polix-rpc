@@ -19,7 +19,7 @@ class Server {
           method: methods[method],
           param: service[method].param
         };
-        delete methodKeys.splice(idx, 1);
+        methodKeys.splice(idx, 1);
       }
     });
     if (Object.keys(events).length > 0) {
