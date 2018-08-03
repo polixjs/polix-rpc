@@ -23,6 +23,7 @@ class Client {
 
     this.client.on('data', function (result) {
       const fn = self.callQueues[result.msgId];
+      delete self.callQueues[result.msgId];
       if (result.error) {
         return fn.call(fn, result.error, null);
       }

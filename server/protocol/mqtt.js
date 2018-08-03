@@ -76,12 +76,6 @@ class MQTT extends EventEmitter {
       };
       self.response(socket, {messageId: pkg.messageId, body: respMsg});
     } else {
-      // if (content.body.age < 23) {
-      //   respMsg.error = {
-      //     message: `Ricky age Is greater than ${content.body.age}!!!!!`
-      //   };
-      //   return self.response(socket, {messageId: pkg.messageId, body: respMsg});
-      // }
       const fn = this.events[content.method].method;
       const callback = function (err, result) {
         respMsg.body = result;
