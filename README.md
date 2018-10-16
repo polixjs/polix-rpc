@@ -63,3 +63,6 @@ client.ping({age: 23, name: 'Ricky 泽阳'}, function (err, result) {
   console.log(result);
 });
 ```
+
+## Author
+Polix © [Ricky 泽阳](https://github.com/rickyes), Released under the MIT License.  
