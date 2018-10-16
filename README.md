@@ -65,4 +65,4 @@ client.ping({age: 23, name: 'Ricky 泽阳'}, function (err, result) {
 ```
 
 ## Author
-Polix © [Ricky 泽阳](https://github.com/rickyes), Released under the MIT License.  
+polix-rpc © [Ricky 泽阳](https://github.com/rickyes), Released under the MIT License.  
