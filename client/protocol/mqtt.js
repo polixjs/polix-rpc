@@ -24,25 +24,22 @@ class MQTT extends EventEmitter {
     const self = this;
     const stream = net.createConnection(this.port, this.host);
     this.socket = mqttCon(stream);
-    // 监听conack事件
+
     this.socket.on('connack', (pkg) => {
       debug('conack: %j', pkg);
     });
 
-    // 监听error事件
     this.socket.on('error', function (err) {
       debug('error: %j', err);
     });
 
 
-    // 监听publish事件
     this.socket.on('publish', (pkg) => {
       const content = pkg.payload.toString();
       debug(content);
       this.emit('data', JSON.parse(content));
     });
 
-    // 监听puback事件
     this.socket.on('puback', (pkg) => {
       debug('puback: %j', pkg);
     });
